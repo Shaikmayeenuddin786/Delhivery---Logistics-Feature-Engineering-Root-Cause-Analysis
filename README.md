@@ -1,21 +1,20 @@
 # Delhivery - Feature Engineering Root Cause Analysis
 
-## Quick Section Summary
+## **Quick Overview**
 
-| Section | Description |
-|---------|-------------|
-| **Why this Project** | Help Delhivery clean and process logistics data for forecasting models |
-| **Business Problem** | Raw data needs cleaning, feature extraction, and preparation for ML |
-| **Objectives** | Clean data, merge trip segments, create features, compare metrics, normalize |
-| **Structural Flowchart** | 10-step process from data loading to business insights |
-| **Technical Stack** | Python, Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn |
-| **Repository Structure** | Jupyter notebook + CSV data + processed outputs |
+| **Section** | **Details** |
+| :--- | :--- |
+| **Business Problem** | Delhivery's raw logistics data is messy. One delivery trip is split across multiple rows, making it hard to use for forecasting. Data scientists need clean, processed data to build better models. |
+| **Objectives** | 1. Clean and sanitize raw pipeline data<br>2. Merge multiple rows per trip into single records<br>3. Create useful features (city, state, time parts)<br>4. Compare actual times vs OSRM (routing engine) predictions<br>5. Handle missing values and outliers<br>6. Normalize and encode data for machine learning |
+| **Technical Stack** | **Language:** Python 3.11<br>**Environment:** Jupyter Notebook<br>**Libraries:** Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, SciPy |
+
 
 ---
 
-## Why this Project
+## **The Big Picture**
 
-Delhivery is India's largest integrated logistics player. Their data team needs to process raw pipeline data to build intelligence and forecasting models. This project cleans, sanitizes, and engineers features from raw logistics data to help data scientists build better models.
+Delhivery is India's largest integrated logistics player. This project cleans and processes raw logistics data for Delhivery, India's largest logistics company. Raw trip data is split across multiple rows—like connecting flights—making it useless for forecasting. I merged 144,867 rows into 14,817 unique trips, created 28 new features, and uncovered that OSRM underestimates 99% of trips. The cleaned data and insights now help data scientists build better forecasting models, while business teams can add realistic buffers to delivery promises.
+
 
 ---
 
