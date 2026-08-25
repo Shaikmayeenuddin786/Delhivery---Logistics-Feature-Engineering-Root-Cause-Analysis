@@ -34,18 +34,18 @@ Delhivery wants to understand and process data from their engineering pipelines:
 
 ## Objectives
 
-| # | Objective | Status |
-|---|-----------|--------|
-| 1 | Define problem statement and perform EDA | ✅ |
-| 2 | Create new features (city, state, time parts) | ✅ |
-| 3 | Merge multiple rows per trip using groupby | ✅ |
-| 4 | Compare time and distance fields (actual vs OSRM) | ✅ |
-| 5 | Detect and cap outliers using IQR method | ✅ |
-| 6 | Handle missing values (median for numbers, mode for categories) | ✅ |
-| 7 | Analyze relationships between aggregated fields | ✅ |
-| 8 | Apply one-hot encoding to categorical variables | ✅ |
-| 9 | Normalize and standardize numerical features | ✅ |
-| 10 | Generate business insights and recommendations | ✅ |
+| # | Objective |
+|---|-----------|
+| 1 | Define problem statement and perform EDA | 
+| 2 | Create new features (city, state, time parts) |
+| 3 | Merge multiple rows per trip using groupby |
+| 4 | Compare time and distance fields (actual vs OSRM) |
+| 5 | Detect and cap outliers using IQR method |
+| 6 | Handle missing values (median for numbers, mode for categories) |
+| 7 | Analyze relationships between aggregated fields |
+| 8 | Apply one-hot encoding to categorical variables |
+| 9 | Normalize and standardize numerical features |
+| 10 | Generate business insights and recommendations |
 
 ---
 
@@ -79,7 +79,7 @@ delhivery-feature-engineering/
 
 ---
 
-## Key Results (True Values from Analysis)
+## Key Results (from Analysis)
 
 | Metric | Value |
 |--------|-------|
@@ -95,7 +95,7 @@ delhivery-feature-engineering/
 
 ---
 
-## Top 5 Business Insights
+## Top 5 Business Insights (sorted On priority)
 
 1. **Extreme Outliers distort averages** - Mean difference is -211 minutes but median is only -0.8 minutes
 2. **Geographic concentration** - Haryana, Maharashtra, Karnataka account for 47.3% of deliveries
@@ -105,7 +105,7 @@ delhivery-feature-engineering/
 
 ---
 
-## Top 5 Recommendations
+## Top 5 Recommendations (sorted On priority)
 
 | Priority | Recommendation | Expected Impact |
 |----------|---------------|-----------------|
@@ -117,20 +117,25 @@ delhivery-feature-engineering/
 
 ---
 
-## How to Run
+## Environment Setup
+### How to Run
 
 1. Clone this repository
 2. Install required libraries:
-   ```bash
+   ```
+   pip install -r requirements.txt
+   ```
    pip install pandas numpy matplotlib seaborn scikit-learn scipy
-
+3. Open the Jupyter notebook:
+   ```
+   Jupyter_Delhivery_Feature_Engineering.ipynb
    [Delhivery_Feature Engineering.ipynb](https://github.com/user-attachments/files/28537543/Delhivery_Feature.Engineering.ipynb)
-
+4. Run the cells sequentially to reproduce the analysis.
+**Note:** The dataset is not included in this repository due to size/confidentiality. Please place your data file in the `data/raw/` folder and update the file path in the notebook.
 ---
 
 ## 👤 Author
 
 **Shaik Mayeenuddin**
-
 Data Science & AI/ML Professional | Lean Six Sigma | Process & Revenue Optimization | 
 https://www.linkedin.com/in/shaikmayeenuddin
