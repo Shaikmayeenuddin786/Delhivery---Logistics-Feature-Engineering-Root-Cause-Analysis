@@ -138,10 +138,13 @@ delhivery-feature-engineering/
    [Delhivery_Feature Engineering.ipynb](https://github.com/user-attachments/files/28537543/Delhivery_Feature.Engineering.ipynb)
 4. Run the cells sequentially to reproduce the analysis.
 **Note:** The dataset is not included in this repository due to size/confidentiality. Please place your data file in the `data/raw/` folder and update the file path in the notebook.
+
 ---
 
-## 👤 Author
+# 👤 **Author**
 
-**Shaik Mayeenuddin**
-Data Science & AI/ML Professional | Lean Six Sigma | Process & Revenue Optimization | 
-https://www.linkedin.com/in/shaikmayeenuddin
+### **Shaik Mayeenuddin**
+
+#### Business Analyst | Data Analytics & AI/ML | Optimizing Processes to Drive Revenue & Retention
+
+🔗https://www.linkedin.com/in/shaikmayeenuddin
