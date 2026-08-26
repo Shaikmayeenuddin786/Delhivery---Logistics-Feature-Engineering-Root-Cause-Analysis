@@ -1,5 +1,5 @@
-# **Logistics Company - Delhivery**
-### **Feature Engineering & Root Cause Analysis | Top Business Insights & Recomendation**
+# **Logistics Company - DELHIVERY**
+### **Feature Engineering & Root Cause Analysis | Top Business Insights & Recommendations**
 
 # **Quick Overview**
 
