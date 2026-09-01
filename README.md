@@ -100,6 +100,29 @@ delhivery-feature-engineering/
 | Trips where actual > OSRM | 99.2% |
 | Data completeness after cleaning | 100% |
 
+### time_comparison_scatter
+### Scatter Plot - od_duration vs start_scan_to_end_scan with y=x line
+<img width="1381" height="800" alt="image" src="https://github.com/user-attachments/assets/5bcaea2d-ea26-4fc4-95f7-848292eb2df4" />
+   
+   **Key Findings**
+   - Strong correlation (0.798) - Both measurements generally track each other
+   - But significant difference - od_duration is on average 211 minutes LONGER than start_scan_to_end_scan
+   - Median difference is only -50 seconds - Meaning half the trips have very close measurements
+   - Large standard deviation (24,273 seconds ≈ 404 minutes) - High variability, some trips have huge differences
+
+### Histogram - actual_time and osrm_distance
+   <img width="649" height="347" alt="image" src="https://github.com/user-attachments/assets/931a2817-cf37-41fe-82e1-da757abd35ab" />
+   <img width="660" height="345" alt="image" src="https://github.com/user-attachments/assets/9188cf0b-14e2-4a82-bf12-b3d232bfc347" />
+
+
+   <img width="874" height="468" alt="image" src="https://github.com/user-attachments/assets/0c1d6005-acaa-442f-a572-954033a40d96" />
+
+   <img width="881" height="473" alt="image" src="https://github.com/user-attachments/assets/fea4b61b-f6e5-4fca-b932-8caccbb4ea59" />
+
+
+
+
+
 ---
 
 ## Top 5 Business Insights 
