@@ -84,10 +84,9 @@ delhivery-feature-engineering/
 <img width="1073" height="483" alt="image" src="https://github.com/user-attachments/assets/b1f1b96c-09cb-42b0-be3f-b1cf66d72749" />
 
 
+# INSIGHTS - Exploratory Data analysis (EDA)
 ---
-# INSIGHTS - EXPLORATORY DATA ANALYSIS (EDA)
-
-## Key Results (from Analysis)
+## DATASET SHAPE & STRUCTURE
 
 | Metric | Value |
 |--------|-------|
@@ -101,7 +100,23 @@ delhivery-feature-engineering/
 | Trips where actual > OSRM | 99.2% |
 | Data completeness after cleaning | 100% |
 
-### time_comparison_scatter
+## MISSING VALUES ANALYSIS
+
+| Column | Missing Count | % Missing | Action Taken |
+| :--- | :---: | :---: | :--- |
+| **cutoff_timestamp** | 144,867 | 100% | Dropped |
+| **cutoff_factor** | 144,867 | 100% | Dropped |
+| **factor** | 144,867 | 100% | Dropped |
+| **segment_factor** | 144,867 | 100% | Dropped |
+| **is_cutoff** | 144,867 | 100% | Dropped |
+| **od_start_time** | 0 | 0% | Converted to datetime |
+| **od_end_time** | 0 | 0% | Converted to datetime |
+| **start_scan_to_end_scan** | 0 | 0% | Kept as numeric |
+| **All other columns** | 0 | 0% | No missing values |
+
+
+## A. CONTINUOUS VARIABLE DISTRIBUTION ANALYSIS
+### COMPARING TIME MEASUREMENTS
 ### Scatter Plot - od_duration vs start_scan_to_end_scan with y=x line
   <img width="1381" height="800" alt="image" src="https://github.com/user-attachments/assets/5bcaea2d-ea26-4fc4-95f7-848292eb2df4" />
    
@@ -110,6 +125,47 @@ delhivery-feature-engineering/
    - But significant difference - od_duration is on average 211 minutes LONGER than start_scan_to_end_scan
    - Median difference is only -50 seconds - Meaning half the trips have very close measurements
    - Large standard deviation (24,273 seconds ≈ 404 minutes) - High variability, some trips have huge differences
+
+
+#### Time-Based Distributions
+
+| Variable | Skewness | Shape | Key Finding |
+| :--- | :--- | :--- | :--- |
+| **start_scan_to_end_scan** | Right-Skewed | Moderate tail | Range: 49 to 3,099 minutes |
+| **actual_time** | Right-Skewed | Long tail | Many short trips, few very long trips |
+| **osrm_time** | Right-Skewed | Similar to actual_time | Tracks actual_time but underestimates |
+<img width="687" height="360" alt="image" src="https://github.com/user-attachments/assets/c17e64aa-24bc-4133-84ea-b21cd0dcbdfb" />
+<img width="696" height="373" alt="image" src="https://github.com/user-attachments/assets/7677ac9a-721a-43ad-aca1-342e190d66a9" />
+<img width="697" height="366" alt="image" src="https://github.com/user-attachments/assets/b4d4fa4e-0e87-4057-94ab-92b774bc50dc" />
+
+#### Distance-Based Distributions
+
+| Variable | Min | Max | Distribution |
+| :--- | :---: | :---: | :--- |
+| **actual_distance_to_destination** | ~1 km | ~400 km | Right-skewed |
+| **osrm_distance** | ~1 km | ~400 km | Similar pattern |
+<img width="705" height="369" alt="image" src="https://github.com/user-attachments/assets/e5de504e-b466-4a2b-a070-6bb15b3d5694" />
+
+  
+## B. CATEGORICAL VARIABLES DISTRIBUTION ANALYSIS
+#### Route Type Distribution
+Carting (Short distance, multi-stop):
+ • Avg actual time: 70.64 minutes
+ • Avg distance: 26.62 km
+ - This means trips are short (26.62 km avg), dispatchers can quickly re-route trucks, make multi-stop drops, and handle urgent local delivery shifts with minimal downtime.
+
+FTL (Full Truck Load - Direct):
+ • Avg actual time: 574.01 minutes
+ • Avg distance: 328.18 km
+ - By filling an entire truck for a single direct run (328.18 km avg), you eliminate intermediate handling, reduce cargo damage risks, and secure the lowest possible shipping rate per mile.
+
+<img width="636" height="824" alt="image" src="https://github.com/user-attachments/assets/1f5059b3-465c-472a-8d4c-3d1073266e93" />
+
+
+Key Finding: Carting (short-distance, multi-stop) represents nearly 70% of all delivery segments.
+<img width="644" height="831" alt="image" src="https://github.com/user-attachments/assets/ace39599-4ebc-4967-bb94-f48ca58f026c" />
+
+
 
 ### Histogram - actual_time and osrm_distance
 <img width="649" height="347" alt="image" src="https://github.com/user-attachments/assets/931a2817-cf37-41fe-82e1-da757abd35ab" />
@@ -123,33 +179,173 @@ delhivery-feature-engineering/
 
 
 
-
 ---
 
-## Top 5 Business Insights 
+## **Top 5 Business Insights**
 #### *sorted On priority*
 
-1. **Extreme Outliers distort averages** - Mean difference is -211 minutes but median is only -0.8 minutes
-2. **Geographic concentration** - Haryana, Maharashtra, Karnataka account for 47.3% of deliveries
-3. **OSRM underestimates 99.2% of trips** - Real-world factors add 15-20% to travel time
-4. **Carting vs FTL are very different** - FTL is 50% faster but covers 12x longer distances
-5. **Strong correlation (0.798)** but systematic difference between time metrics
+
+### INSIGHT 1: Extreme Outliers Hide the Real Picture
+
+- **Average trip difference:** 211 minutes
+- **Median trip difference:** Only 0.8 minutes (50 seconds)
+- **What this means:** Most trips are fine, but a few severely delayed trips (4-10+ hours) are making the average look bad
+- **Business Impact:** Don't trust averages – they hide the fact that most trips are running well
+
+
+### INSIGHT 2: Business is Concentrated in 3 States ( Geographic Distribution)
+
+  | Source State | Delivery Count | Percentage |
+  | :--- | :---: | :---: |
+  | **Haryana** | 27,499 | 19.0% |
+  | **Maharashtra** | 21,401 | 14.8% |
+  | **Karnataka** | 19,578 | 13.5% |
+  | **Tamil Nadu** | 7,494 | 5.2% |
+  | **Gujarat** | 7,202 | 5.0% |
+  | **Others** | 61,693 | 42.5% |
+  
+  | Destination State | Delivery Count | Percentage |
+  | :--- | :---: | :---: |
+  | **Karnataka** | 21,065 | 14.5% |
+  | **Haryana** | 20,622 | 14.2% |
+  | **Maharashtra** | 18,196 | 12.6% |
+  | **West Bengal** | 8,499 | 5.9% |
+  | **Telangana** | 8,205 | 5.7% |
+
+*Finding: Top 3 source states account for 47.3% of all deliveries.*
+- **47% of all deliveries** come from just 3 states: **Haryana, Maharashtra, and Karnataka**
+- **What this means:** Your business is heavily dependent on this corridor
+- **Business Impact:** Any disruption in these states affects half your operations
+
+
+### INSIGHT 3: OSRM Almost Always Underestimates Time
+
+- **99.2%** of trips take longer than OSRM predicts
+- **Typical overage:** 15-20% above OSRM estimate
+- **What this means:** The routing engine never accounts for real-world delays (traffic, loading, breaks)
+- **Business Impact:** Customer ETAs based on OSRM are almost always wrong (too optimistic)
+
+
+### INSIGHT 4: Carting and FTL are Two Different Businesses
+
+| Metric | Carting | FTL |
+|:-------|:--------|:----|
+| Avg Time | 71 min | 574 min (9.6 hours) |
+| Avg Distance | 27 km | 328 km |
+| Speed | 23 km/hr | 34 km/hr |
+
+- **What this means:** FTL is 50% faster but covers 12x longer distances
+- **Business Impact:** One-size-fits-all forecasting and pricing will fail – you need separate strategies
+
+
+### INSIGHT 5: Strong Correlation but Systematic Difference
+
+- **Correlation:** 0.798 (strong positive)
+- **What this means:** Both metrics measure trip duration well, but `od_duration` includes more waiting/idle time than `start_scan`
+- **Business Impact:** Use `start_scan` for customer promises (tighter), `od_duration` for internal efficiency monitoring
+
+
+## Much Simpler Summary (non Tech)
+
+| # | Insight | One-Liner |
+|:--|:--------|:----------|
+| 1 | Outliers | A few bad trips are hiding the fact that most trips are running fine |
+| 2 | Geography | 47% of deliveries come from just 3 states – focus optimization there |
+| 3 | OSRM | It underestimates 99% of trips – add a 20% buffer to ETAs |
+| 4 | Carting vs FTL | They're completely different – build separate models for each |
+| 5 | Time Metrics | `start_scan` for customers, `od_duration` for internal tracking |
+
 
 ---
 
 ## Top 5 Recommendations
 #### *sorted On priority*
 
-| Priority | Recommendation | Expected Impact |
-|----------|---------------|-----------------|
-| 1 | Add 20% buffer to OSRM ETAs | Reduce missed promises by 80% |
-| 2 | Build real-time outlier detection | Catch severe delays early |
-| 3 | Optimize top 3 states | 10-15% faster delivery |
-| 4 | Separate models for Carting vs FTL | 15-20% better accuracy |
-| 5 | Standardize time definitions | Clearer KPIs |
+### PRIORITY 1: Add 20% Buffer to OSRM ETAs
+
+| What | Details |
+|:-----|:---------|
+| **Problem** | OSRM underestimates 99% of trips |
+| **Solution** | Multiply all ETAs by 1.2 before showing customers |
+| **Impact** | Reduce missed delivery promises by ~80% |
+| **Effort** | 1-2 days, near zero cost |
+| **ROI** | Very High (happy customers) |
+
+**Action:** Update  ETA API to add a 20% buffer.
 
 
-## Future Upgrades & Scaling Plan
+### PRIORITY 2: Build Real-Time Outlier Detection
+
+| What | Details |
+|:-----|:---------|
+| **Problem** | Extreme delays (211 min avg) hide normal performance |
+| **Solution** | Flag trips that are >1.5x slower than normal |
+| **Impact** | Catch severe delays within 30 minutes |
+| **Effort** | 2-3 weeks, low cost |
+| **ROI** | High (proactive problem solving) |
+
+**Action:** Alert operations team when a trip becomes an outlier.
+
+
+
+### PRIORITY 3: Optimize Top 3 States
+
+| What | Details |
+|:-----|:---------|
+| **Problem** | 47% of deliveries from just 3 states |
+| **Solution** | Add warehouses and fleet in Haryana, Maharashtra, Karnataka |
+| **Impact** | 10-15% faster delivery in high-volume corridors |
+| **Effort** | 3-6 months, medium cost |
+| **ROI** | High (scaling efficiency) |
+
+**Action:** Audit capacity in top 3 states. Add resources where utilization >80%.
+
+
+
+### PRIORITY 4: Separate Models for Carting vs FTL
+
+| What | Details |
+|:-----|:---------|
+| **Problem** | Carting (71 min, 27 km) and FTL (574 min, 328 km) are very different |
+| **Solution** | Build two separate forecasting models |
+| **Impact** | 15-20% better ETA accuracy |
+| **Effort** | 4-6 weeks, low cost |
+| **ROI** | Medium-High (better predictions) |
+
+**Action:** Split training data by `route_type`. Train separate models.
+
+
+
+### PRIORITY 5: Standardize Time Definitions
+
+| What | Details |
+|:-----|:---------|
+| **Problem** | `od_duration` and `start_scan` measure the same thing but differ systematically |
+| **Solution** | Document definitions. Use `start_scan` for customer metrics. |
+| **Impact** | Clearer KPIs, less confusion |
+| **Effort** | 1 week, near zero cost |
+| **ROI** | Low-Medium (organizational clarity) |
+
+**Action:** Create a data dictionary defining each time field and its use.
+
+
+
+##  Quick Overall Summary (non tech audiance)
+
+
+| Priority | Recommendation | Time | ROI | Business Impact |
+| :---: | :--- | :---: | :---: | :--- |
+| **1** | Add 20% buffer to OSRM ETAs | 2 days | Very High | Reduce missed promises by 80% |
+| **2** | Real-time outlier detection | 3 weeks | High | Catch severe delays early |
+| **3** | Optimize top 3 states | 6 months | High | 10-15% faster delivery |
+| **4** | Separate Carting vs FTL models | 6 weeks | Medium-High | 15-20% better accuracy |
+| **5** | Standardize time definitions | 1 week | Low-Medium | Clearer KPIs |
+
+
+
+
+## **Future Upgrades & Scaling Plan**
+
 
 Deploy as a Real-Time API
 - Currently, the feature engineering is done in a Jupyter notebook. Building a FastAPI endpoint would let other systems (like routing engines or operations dashboards) get cleaned, engineered data on demand, enabling real-time decision-making.
