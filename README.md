@@ -6,13 +6,17 @@
 
 ---
 
-# **Quick Overview**
+## **Quick Overview**
 
 | **Section** | **Details** |
 | :--- | :--- |
-| **Business Problem** | Delhivery's raw logistics data is messy. One delivery trip is split across multiple rows, making it hard to use for forecasting. Data scientists need clean, processed data to build better models. |
-| **Objectives** | 1. Clean and sanitize raw pipeline data<br>2. Merge multiple rows per trip into single records<br>3. Create useful features (city, state, time parts)<br>4. Compare actual times vs OSRM (routing engine) predictions<br>5. Handle missing values and outliers<br>6. Normalize and encode data for machine learning |
-| **Technical Stack** | **Language:** Python 3.11<br>**Environment:** Jupyter Notebook<br>**Libraries:** Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, SciPy |
+| **Business Problem** | Raw logistics data is messy. One delivery trip is split across multiple rows, making it useless for forecasting. Data scientists need clean, processed data to build better models. |
+| **Objectives** | 1. Clean and sanitize raw pipeline data<br>2. Merge multiple rows per trip into single records<br>3. Create useful features (city, state, time parts)<br>4. Compare actual times vs OSRM predictions<br>5. Handle missing values and outliers<br>6. Normalize and encode data for ML |
+| **Technical Stack** | Python 3.11, Jupyter Notebook, Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn, SciPy |
+| **Project Features** | • 144,867 raw rows → merged into 14,817 unique trips<br>• Created 28 new features<br>• 99.2% of trips took longer than OSRM predicted<br>• Handled missing values and capped outliers<br>• Applied one-hot encoding and normalization |
+| **Start-to-End Pipeline** | Data Loading → Data Cleaning → Feature Engineering (city, state, time parts) → Trip Merging (groupby) → Time/Distance Comparison → Outlier Detection & Capping → Missing Value Treatment → Encoding & Normalization → Business Insights |
+| **Top Strategic Recommendations** | • Add 20% buffer to OSRM ETAs – reduce missed promises by 80%<br>• Build real-time outlier detection – catch severe delays early<br>• Optimize top 3 states – achieve 10-15% faster delivery<br>• Separate models for Carting vs FTL – get 15-20% better accuracy<br>• Standardize time definitions – create clearer KPIs |
+| **Future Upgrades & Scaling Plan** | • Deploy as real-time API – let systems get engineered data on demand<br>• Automate pipeline with Apache Airflow – run daily without manual work<br>• Move to cloud data warehouse – handle larger datasets faster<br>• Real-time outlier detection – flag unusual trip patterns as they happen |
 
 
 ---
@@ -22,7 +26,7 @@
 Delhivery is India's largest integrated logistics player. This project cleans and processes raw logistics data for Delhivery, India's largest logistics company. Raw trip data is split across multiple rows—like connecting flights—making it useless for forecasting. I merged 144,867 rows into 14,817 unique trips, created 28 new features, and uncovered that OSRM underestimates 99% of trips. The cleaned data and insights now help data scientists build better forecasting models, while business teams can add realistic buffers to delivery promises.
 
 
----
+
 
 ## Business Problem
 
@@ -30,13 +34,13 @@ Delhivery wants to understand and process data from their engineering pipelines:
 - Clean and manipulate data to extract useful features from raw fields
 - Make sense of raw data to help the data science team build forecasting models
 
-**Key challenges:**
+**Key challenges**
 - One delivery trip is split across multiple rows (like connecting flights)
 - Need to merge rows intelligently using aggregations
 - Compare actual times vs OSRM (routing engine) predictions
 - Handle missing values, outliers, and categorical variables
 
----
+
 
 ## Objectives
 
@@ -53,14 +57,6 @@ Delhivery wants to understand and process data from their engineering pipelines:
 | 9 | Normalize and standardize numerical features |
 | 10 | Generate business insights and recommendations |
 
----
-
-## Structural Flowchart
-
-<img width="793" height="571" alt="image" src="https://github.com/user-attachments/assets/76ee09aa-1e34-4e5c-b076-04f172ce84b7" />
-
----
-
 ## Technical Stack
 
 | Tool | Purpose |
@@ -74,7 +70,12 @@ Delhivery wants to understand and process data from their engineering pipelines:
 | Scikit-learn 1.6.1 | Scaling, encoding, preprocessing |
 | SciPy 1.5.2 | Statistical tests (t-test) |
 
----
+
+## Structural Flowchart
+
+<img width="793" height="571" alt="image" src="https://github.com/user-attachments/assets/76ee09aa-1e34-4e5c-b076-04f172ce84b7" />
+
+
 
 ## Repository Structure
 
@@ -83,7 +84,7 @@ delhivery-feature-engineering/
 <img width="1073" height="483" alt="image" src="https://github.com/user-attachments/assets/b1f1b96c-09cb-42b0-be3f-b1cf66d72749" />
 
 
----
+
 
 ## Key Results (from Analysis)
 
@@ -101,7 +102,8 @@ delhivery-feature-engineering/
 
 ---
 
-## Top 5 Business Insights (sorted On priority)
+## Top 5 Business Insights 
+#### *sorted On priority*
 
 1. **Extreme Outliers distort averages** - Mean difference is -211 minutes but median is only -0.8 minutes
 2. **Geographic concentration** - Haryana, Maharashtra, Karnataka account for 47.3% of deliveries
@@ -111,7 +113,8 @@ delhivery-feature-engineering/
 
 ---
 
-## Top 5 Recommendations (sorted On priority)
+## Top 5 Recommendations
+#### *sorted On priority*
 
 | Priority | Recommendation | Expected Impact |
 |----------|---------------|-----------------|
@@ -121,7 +124,22 @@ delhivery-feature-engineering/
 | 4 | Separate models for Carting vs FTL | 15-20% better accuracy |
 | 5 | Standardize time definitions | Clearer KPIs |
 
----
+
+## Future Upgrades & Scaling Plan
+
+Deploy as a Real-Time API
+- Currently, the feature engineering is done in a Jupyter notebook. Building a FastAPI endpoint would let other systems (like routing engines or operations dashboards) get cleaned, engineered data on demand, enabling real-time decision-making.
+
+Automate the Pipeline with Apache Airflow
+- Schedule the entire data cleaning, merging, and feature engineering process to run daily without manual intervention. This ensures data scientists always have fresh, processed data to build better forecasting models.
+
+Integrate with a Cloud Data Warehouse
+- Move from local CSV files to a cloud database (like Snowflake or BigQuery). This would allow handling of much larger datasets, enable faster queries, and make it easier to share data across teams.
+
+Build a Real-Time Outlier Detection System
+- Instead of detecting outliers after the fact, build a system that flags unusual trip patterns (like extreme delays or unexpected routes) as they happen. Operations teams can then intervene immediately to resolve issues.
+
+
 
 ## Environment Setup
 ### How to Run
@@ -137,12 +155,13 @@ delhivery-feature-engineering/
    Jupyter_Delhivery_Feature_Engineering.ipynb
    [Delhivery_Feature Engineering.ipynb](https://github.com/user-attachments/files/28537543/Delhivery_Feature.Engineering.ipynb)
 4. Run the cells sequentially to reproduce the analysis.
+
 **Note:** The dataset is not included in this repository due to size/confidentiality. Please place your data file in the `data/raw/` folder and update the file path in the notebook.
 
----
 
 
-# 👤 **Author**
+
+## 👤 **Author**
 
 ### **Shaik Mayeenuddin**
 
